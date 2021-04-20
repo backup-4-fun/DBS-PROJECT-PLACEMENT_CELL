@@ -5,7 +5,7 @@ import TextField from '@material-ui/core/TextField';
  
  
 export default function Master() {
-  const { useState } = React;
+  const { useState } = React ;
 
   const [columns, setColumns] = useState([
     { title: 'Name' , field: 'Company_Name' },
