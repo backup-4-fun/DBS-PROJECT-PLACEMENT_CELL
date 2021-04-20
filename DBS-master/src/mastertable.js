@@ -8,7 +8,7 @@ export default function Master() {
   const { useState } = React;
 
   const [columns, setColumns] = useState([
-    { title: 'Name', field: 'Company_Name' },
+    { title: 'Name' , field: 'Company_Name' },
     { title: 'Surname', field: 'Company_ID'},
     { title: 'Birth Year', field: 'Name_of_HR', type: 'numeric' },
     {
