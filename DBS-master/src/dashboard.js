@@ -27,6 +27,7 @@ import Card from '@material-ui/core/Card';
 import { Avatar } from '@material-ui/core';
 import CardHeader from '@material-ui/core/CardHeader';
 import { green } from '@material-ui/core/colors';
+import { blue } from '@material-ui/core/colors';
 import CardContent from '@material-ui/core/CardContent';
 import Dates from './date';
 import BusinessSharpIcon from '@material-ui/icons/BusinessSharp';
@@ -38,6 +39,7 @@ import bphc from './images/Bphc.jpg';
 import {useHistory} from 'react-router-dom';
 import MenuListComposition from './Profile';
 import MasterButton from './masterbutton';
+import PitchedButton from './pitchedbutton';
 
 function Copyright() {
   return (
@@ -150,6 +152,13 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar:{
     backgroundColor:green[500],
+  },
+  ms:{
+    display:'flex',
+    width:100,
+    textAlign:'right',
+    backgroundColor:blue[500],
+    // border: 1px solid dashed,
   }
 }));
 
@@ -165,11 +174,30 @@ export default function Dashboard() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  const gotomaster = () => {
-    history.push('/master');
+  // const gotomaster = () => {
+  //   history.push('/master');
+  // };
+  // const gotopitched = () => {
+  //   history.push('/pitched');
+  // };
+  const gotoPitched18 = () => {
+    history.push('/pc18');
   };
-  const gotopitched = () => {
-    history.push('/pitched');
+  
+  const gotoPitched19 = () => {
+    history.push('/pc19');
+  };
+ 
+  const gotoPitched20 = () => {
+    history.push('/pc20');
+  };
+  
+  const gotoPast19 = () => {
+    history.push('/pr19');
+  };
+ 
+  const gotoPast20 = () => {
+    history.push('/pr20');
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   const notes=
@@ -233,6 +261,25 @@ export default function Dashboard() {
             <ChevronLeftIcon />
           </IconButton>
         </div>
+        <div> <IconButton onClick={gotoPitched18} variant="outlined" color="primary">
+            PC 2018
+          </IconButton></div>
+ 
+          <div> <IconButton  onClick={gotoPitched19}variant="outlined" color="primary">
+            PC 2019
+          </IconButton></div> 
+        
+          <div> <IconButton  onClick={gotoPitched20}variant="outlined" color="primary">
+            PC 2020
+          </IconButton></div>
+ 
+          <div> <IconButton  onClick={gotoPast19}variant="outlined" color="primary">
+            PR 2019
+          </IconButton></div>
+ 
+          <div> <IconButton  onClick={gotoPast20}variant="outlined" color="primary">
+            PR 2020
+          </IconButton></div>
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
@@ -242,18 +289,17 @@ export default function Dashboard() {
                   Announcement
                 </Button>
                 <span>  </span>
-                    <MasterButton />     
+                <div className={classes.ms}>
+                    <MasterButton />
+                </div>    
+                    <br />
+                    <br />
+                <div className={classes.ms}>    
+                    <PitchedButton />
+                </div>         
             </div>
         </Container>
-        <Container maxWidth="lg" className={classes.container}> 
-            <div className={classes.main}>
-            <Button
-        variant="contained"
-        color="primary"
-      onClick={gotopitched}> Add Table <AddBoxIcon />
-      </Button>       
-            </div>
-        </Container>
+        
         <div className={classes.announcementpanel}>
             <Typography variant="h5" className={classes.heading}> Announcement Panel</Typography>
         </div> 
@@ -262,7 +308,7 @@ export default function Dashboard() {
               <Grid item key={item.id} md={4} backgroundColor={"green"}>
                 <Card spacing="3"> 
                 <CardHeader avatar={
-                  <Avatar aria-label="add" className={classes.avatar}>A</Avatar>
+                  <Avatar aria-label="add" className={classes.avatar}>S</Avatar>
                 } title={item.written} subheader={<Dates />} /><CardContent>Name: {item.title}
                 </CardContent></Card>
               </Grid>

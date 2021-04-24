@@ -8,14 +8,14 @@ export default function Master() {
   const { useState } = React ;
 
   const [columns, setColumns] = useState([
-    { title: 'Name' , field: 'Company_Name' },
-    { title: 'Surname', field: 'Company_ID'},
-    { title: 'Birth Year', field: 'Name_of_HR', type: 'numeric' },
+    { title: 'Company Name' , field: 'Company_Name' },
+    { title: 'Company ID', field: 'Company_ID'},
+    { title: 'Name Of HR', field: 'Name_of_HR', type: 'numeric' },
     {
-      title: 'Birth Place',
+      title: 'Est_Yr',
       field: 'Years_Of_Establishment',
     },
-    { title: 'Birth Year', field: 'Colleges_It_Visited', type: 'numeric' },
+    // { title: 'Birth Year', field: 'Colleges_It_Visited', type: 'numeric' },
   ]);
 
   const [data, setData] = useState([
@@ -32,9 +32,9 @@ export default function Master() {
 
   return (
     <div>
-      <button onClick={getData}> Submit</button>
+      <button onClick={getData}> Show </button>
     <MaterialTable
-      title="Editable Preview"
+      title="Master Table"
       columns={columns}
       data={data}
       editable={{
@@ -117,17 +117,16 @@ const [name,setName]=useState("");
 const [ID,setID]=useState(0);
 const [HR_Details,setHR_Details]=useState("");
 const [Est_Year,setEst_Year]=useState(0);
-const [Roles,setRoles]=useState("");
+// const [Roles,setRoles]=useState("");
 
   const log = () => { 
-    if(name!="" && ID>0 && HR_Details!="" && Est_Year!="" && Roles!=""){
+    if(name!=="" && ID>0 && HR_Details!=="" && Est_Year!==""){
 
       Axios.post("http://localhost:3001/insertmaster", {
       name,
       ID,
       HR_Details,
       Est_Year,
-      Roles,
     }).then((response) => {
       console.log(name);
       console.log(response);
@@ -191,16 +190,6 @@ const [Roles,setRoles]=useState("");
   }}
 /> 
 <span> </span>
- <TextField 
-    id="5"
-   label="Colleges It Visited"
-   variant="outlined"
-   color="secondary"
-   onChange={(e) => {
-    setRoles(e.target.value);
-  }}
-/> 
-<span> </span>
 <button type="submit" onClick={log}>Submit</button>
      {/* <MaterialTable
       title="Master Table Space"
@@ -250,77 +239,82 @@ const [Roles,setRoles]=useState("");
 }
 
    
-// export function UpdateMaster() {
-//   const { useState } = React;
+export function UpdateMaster() {
+  const { useState } = React;
 
- 
-//   const [columns, setColumns] = useState([
+const [columns, setColumns] = useState([
+  { title: 'Company Name' , field: 'Company_Name' },
+    { title: 'Company ID', field: 'Company_ID'},
+    { title: 'Name Of HR', field: 'Name_of_HR', type: 'numeric' },
+    {
+      title: 'Est_Yr',
+      field: 'Years_Of_Establishment',
+    },
+]);
 
-      
-//     { title: 'Company_Name', field: 'name', validate: rowData => rowData.name === '' ? 'Company Name cannot be empty' : '',
-//      },
-//     { title: 'Company_ID', field: 'ID', type: 'numeric', validate: rowData => rowData.ID === '' ? 'Company ID cannot be empty' : '',  },
-//     { title: 'Details_of_HR', field: 'HR_Details'},
-//     { title: 'Year_of_Est', field: 'Est_Year', type: 'numeric' },
-//     { title: 'Details_of_HR', field: 'HR_Details'},
-//     { title: 'Job_Roles_Offered', field: 'Roles'},
-    
-//   ]);
+const [data, setData] = useState([
+  // { name: 'Mehmet', surname: 'Baran', birthYear: 1987, birthCity: 63 },
+  
+]);
 
-//   const [data, setData] = useState([
-//     { name: 'Amazon', ID: '1001',  HR_Details: 'no one cares' , Est_Year: 1987, Roles: 'Front end dev' },
-//     { name: 'Flipkart', ID: '1002', HR_Details: 'none',Est_Year: 2001,  Roles: 'Back end dev' },
-//   ]);
 
-//   return (
-//     <MaterialTable
-//       title="Master Table Space"
-//       columns={[
-//           {
-//             title: 'Company_Name', field: 'name',
+const getData = () => {Axios.get("http://localhost:3001/updatemaster").then((response) => {
 
-//             cellStyle: {
-//               backgroundColor: '#87ceeb',
-//               color: '#FFF'
-//             },
-//             headerStyle: {
-//               backgroundColor: '#87ceeb',
-//             }
-//           },
-          
-//            { title: 'Company_ID', field: 'ID', type: 'numeric', validate: rowData => rowData.ID === '' ? 'Company ID cannot be empty' : '',  },
-//            { title: 'Details_of_HR', field: 'HR_Details'},
-//            { title: 'Year_of_Est', field: 'Est_Year', type: 'numeric' },
-           
-//           { title: 'Job_Roles_Offered', field: 'Roles'},
-          
-          
-//         ]}
-//       data={data}
-//       editable={{
+          setData(response.data); 
+   })
+  
+   };
+
+const upsend = (e) => {
+  Axios.put("http://localhost:3001/sendupdatemaster",e).then(response => {
+    console.log(response);
+  })
+}
+
+return (
+  <div>
+    <button onClick={getData}> Submit</button>
+  <MaterialTable
+    title="Master Table"
+    columns={columns}
+    data={data}
+    editable={{
+      // onRowAdd: newData =>
+      //   new Promise((resolve, reject) => {
+      //     setTimeout(() => {
+      //       setData([...data, newData]);
+            
+      //       resolve();
+      //     }, 1000)
+      //   }),
+      onRowUpdate: (newData, oldData) =>
+        new Promise((resolve, reject) => {
+          setTimeout(() => {
+            const dataUpdate = [...data];
+            const index = oldData.tableData.id;
+            dataUpdate[index] = newData;
+            setData([...dataUpdate]);
+
+            console.log(newData);
+              
+            upsend(newData);
+            resolve();
+          }, 1000)
         
-//         onRowUpdate: (newData, oldData) =>
-//           new Promise((resolve, reject) => {
-//             setTimeout(() => {
-//               const dataUpdate = [...data];
-//               const index = oldData.tableData.id;
-//               dataUpdate[index] = newData;
-//               setData([...dataUpdate]);
-
-//               resolve();
-//             }, 1000)
-
-
-//           }),
-        
-      
-//       }}
-//       options={{
-//           headerStyle: {
-//             backgroundColor: '#4682b4',
-//             color: '#FFF'
-//           }
-//       }}
-//     />
-//   )
-// }
+        }),
+      // onRowDelete: oldData =>
+      //   new Promise((resolve, reject) => {
+      //     setTimeout(() => {
+      //       const dataDelete = [...data];
+      //       const index = oldData.tableData.id;
+      //       dataDelete.splice(index, 1);
+      //       setData([...dataDelete]);
+            
+      //       resolve()
+      //     }, 1000)
+      //   }),
+    }}
+  />
+  </div>
+)
+}
