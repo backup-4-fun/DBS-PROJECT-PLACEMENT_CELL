@@ -209,7 +209,7 @@ const [Est_Year,setEst_Year]=useState(0);
            { title: 'Name_of_HR', field: 'HR_Details'},
            { title: 'Year_of_Est', field: 'Est_Year', type: 'numeric' },
            
-          { title: 'Job_Roles_Offered', field: 'Roles'},
+          { title: 'Job_Roles_Offered', field: 'Roles'}, 
           
           
         ]}
